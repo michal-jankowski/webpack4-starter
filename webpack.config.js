@@ -42,6 +42,20 @@ module.exports = {
                     }]
             },
 
+            // URL LOADER ('file-loader' required!)
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10000,
+                            name: "[name].[ext]"
+                        }
+                    }
+                ]
+            },
+
             // HANDLEBARS LOADER (optional)
             {
                 test: /\.hbs$/,

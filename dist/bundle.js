@@ -78,7 +78,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \"/*------------------------\\n          BASE\\n------------------------*/\\n* {\\n  box-sizing: border-box;\\n  padding: 0;\\n  margin: 0; }\\n\\nbody {\\n  font-family: Helvetica, Arial, sans-serif; }\\n\\n.page-title {\\n  margin-bottom: 10px;\\n  font-size: 24px; }\\n\\n.page-info {\\n  margin-bottom: 30px;\\n  font-size: 16px; }\\n  .page-info span {\\n    display: inline-block;\\n    padding: 3px 7px;\\n    border-radius: 5px;\\n    background-color: #D6DADA;\\n    color: #545557; }\\n\\n/*------------------------\\n          LAYOUT\\n------------------------*/\\n.container {\\n  width: 980px;\\n  margin: 100px auto; }\\n\\n.logo {\\n  display: block;\\n  width: 200px;\\n  height: 200px;\\n  margin-bottom: 50px;\\n  background-size: 100%; }\\n\\n/*------------------------\\n          COMPONENTS\\n------------------------*/\\n.button {\\n  padding: 10px 20px;\\n  border: none;\\n  border-radius: 5px;\\n  background-color: #1880FF;\\n  cursor: pointer;\\n  font-family: Helvetica, Arial, sans-serif;\\n  font-size: 16px;\\n  color: #80E0FF; }\\n\\n.users {\\n  width: 100%;\\n  padding: 30px;\\n  margin-top: 30px;\\n  border-radius: 5px;\\n  background-color: #ededed;\\n  list-style: none; }\\n  .users__empty {\\n    margin-top: 20px; }\\n\\n.user {\\n  margin-bottom: 10px; }\\n  .user:last-child {\\n    margin-bottom: 0; }\\n  .user__name {\\n    display: inline-block;\\n    font-weight: bold; }\\n  .user__email {\\n    display: inline-block;\\n    margin: 0 10px; }\\n  .user__website a {\\n    text-decoration: none;\\n    color: #b769e5; }\\n\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack:///./src/sass/main.scss?./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js");
+eval("var escape = __webpack_require__(/*! ../../node_modules/css-loader/lib/url/escape.js */ \"./node_modules/css-loader/lib/url/escape.js\");\nexports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \"/*------------------------\\n          BASE\\n------------------------*/\\n* {\\n  box-sizing: border-box;\\n  padding: 0;\\n  margin: 0; }\\n\\nbody {\\n  font-family: Helvetica, Arial, sans-serif; }\\n\\n.page-title {\\n  margin-bottom: 10px;\\n  font-size: 24px; }\\n\\n.page-info {\\n  margin-bottom: 30px;\\n  font-size: 16px; }\\n  .page-info span {\\n    display: inline-block;\\n    padding: 3px 7px;\\n    border-radius: 5px;\\n    background-color: #D6DADA;\\n    color: #545557; }\\n\\n/*------------------------\\n          LAYOUT\\n------------------------*/\\n.container {\\n  width: 980px;\\n  margin: 100px auto; }\\n\\n.logo {\\n  display: block;\\n  width: 200px;\\n  height: 200px;\\n  margin-bottom: 50px;\\n  background: url(\" + escape(__webpack_require__(/*! ../images/logo.png */ \"./src/images/logo.png\")) + \") 0 0 no-repeat;\\n  background-size: 100%; }\\n\\n/*------------------------\\n          COMPONENTS\\n------------------------*/\\n.button {\\n  padding: 10px 20px;\\n  border: none;\\n  border-radius: 5px;\\n  background-color: #1880FF;\\n  cursor: pointer;\\n  font-family: Helvetica, Arial, sans-serif;\\n  font-size: 16px;\\n  color: #80E0FF; }\\n\\n.users {\\n  width: 100%;\\n  padding: 30px;\\n  margin-top: 30px;\\n  border-radius: 5px;\\n  background-color: #ededed;\\n  list-style: none; }\\n  .users__empty {\\n    margin-top: 20px; }\\n\\n.user {\\n  margin-bottom: 10px; }\\n  .user:last-child {\\n    margin-bottom: 0; }\\n  .user__name {\\n    display: inline-block;\\n    font-weight: bold; }\\n  .user__email {\\n    display: inline-block;\\n    margin: 0 10px; }\\n  .user__website a {\\n    text-decoration: none;\\n    color: #b769e5; }\\n\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack:///./src/sass/main.scss?./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js");
 
 /***/ }),
 
@@ -90,6 +90,17 @@ eval("exports = module.exports = __webpack_require__(/*! ../../node_modules/css-
 /***/ (function(module, exports) {
 
 eval("/*\n\tMIT License http://www.opensource.org/licenses/mit-license.php\n\tAuthor Tobias Koppers @sokra\n*/\n// css base code, injected by the css-loader\nmodule.exports = function(useSourceMap) {\n\tvar list = [];\n\n\t// return the list of modules as css string\n\tlist.toString = function toString() {\n\t\treturn this.map(function (item) {\n\t\t\tvar content = cssWithMappingToString(item, useSourceMap);\n\t\t\tif(item[2]) {\n\t\t\t\treturn \"@media \" + item[2] + \"{\" + content + \"}\";\n\t\t\t} else {\n\t\t\t\treturn content;\n\t\t\t}\n\t\t}).join(\"\");\n\t};\n\n\t// import a list of modules into the list\n\tlist.i = function(modules, mediaQuery) {\n\t\tif(typeof modules === \"string\")\n\t\t\tmodules = [[null, modules, \"\"]];\n\t\tvar alreadyImportedModules = {};\n\t\tfor(var i = 0; i < this.length; i++) {\n\t\t\tvar id = this[i][0];\n\t\t\tif(typeof id === \"number\")\n\t\t\t\talreadyImportedModules[id] = true;\n\t\t}\n\t\tfor(i = 0; i < modules.length; i++) {\n\t\t\tvar item = modules[i];\n\t\t\t// skip already imported module\n\t\t\t// this implementation is not 100% perfect for weird media query combinations\n\t\t\t//  when a module is imported multiple times with different media queries.\n\t\t\t//  I hope this will never occur (Hey this way we have smaller bundles)\n\t\t\tif(typeof item[0] !== \"number\" || !alreadyImportedModules[item[0]]) {\n\t\t\t\tif(mediaQuery && !item[2]) {\n\t\t\t\t\titem[2] = mediaQuery;\n\t\t\t\t} else if(mediaQuery) {\n\t\t\t\t\titem[2] = \"(\" + item[2] + \") and (\" + mediaQuery + \")\";\n\t\t\t\t}\n\t\t\t\tlist.push(item);\n\t\t\t}\n\t\t}\n\t};\n\treturn list;\n};\n\nfunction cssWithMappingToString(item, useSourceMap) {\n\tvar content = item[1] || '';\n\tvar cssMapping = item[3];\n\tif (!cssMapping) {\n\t\treturn content;\n\t}\n\n\tif (useSourceMap && typeof btoa === 'function') {\n\t\tvar sourceMapping = toComment(cssMapping);\n\t\tvar sourceURLs = cssMapping.sources.map(function (source) {\n\t\t\treturn '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'\n\t\t});\n\n\t\treturn [content].concat(sourceURLs).concat([sourceMapping]).join('\\n');\n\t}\n\n\treturn [content].join('\\n');\n}\n\n// Adapted from convert-source-map (MIT)\nfunction toComment(sourceMap) {\n\t// eslint-disable-next-line no-undef\n\tvar base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));\n\tvar data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;\n\n\treturn '/*# ' + data + ' */';\n}\n\n\n//# sourceURL=webpack:///./node_modules/css-loader/lib/css-base.js?");
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/lib/url/escape.js":
+/*!***************************************************!*\
+  !*** ./node_modules/css-loader/lib/url/escape.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = function escape(url) {\n    if (typeof url !== 'string') {\n        return url\n    }\n    // If url is already wrapped in quotes, remove them\n    if (/^['\"].*['\"]$/.test(url)) {\n        url = url.slice(1, -1);\n    }\n    // Should url be wrapped?\n    // See https://drafts.csswg.org/css-values-3/#urls\n    if (/[\"'() \\t\\n]/.test(url)) {\n        return '\"' + url.replace(/\"/g, '\\\\\"').replace(/\\n/g, '\\\\n') + '\"'\n    }\n\n    return url\n}\n\n\n//# sourceURL=webpack:///./node_modules/css-loader/lib/url/escape.js?");
 
 /***/ }),
 
@@ -361,6 +372,17 @@ eval("\n/**\n * When source maps are enabled, `style-loader` uses a link element
 /***/ (function(module, exports) {
 
 eval("var g;\r\n\r\n// This works in non-strict mode\r\ng = (function() {\r\n\treturn this;\r\n})();\r\n\r\ntry {\r\n\t// This works if eval is allowed (see CSP)\r\n\tg = g || Function(\"return this\")() || (1, eval)(\"this\");\r\n} catch (e) {\r\n\t// This works if the window reference is available\r\n\tif (typeof window === \"object\") g = window;\r\n}\r\n\r\n// g can still be undefined, but nothing to do about it...\r\n// We return undefined, instead of nothing here, so it's\r\n// easier to handle this case. if(!global) { ...}\r\n\r\nmodule.exports = g;\r\n\n\n//# sourceURL=webpack:///(webpack)/buildin/global.js?");
+
+/***/ }),
+
+/***/ "./src/images/logo.png":
+/*!*****************************!*\
+  !*** ./src/images/logo.png ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"logo.png\";\n\n//# sourceURL=webpack:///./src/images/logo.png?");
 
 /***/ }),
 

@@ -1,4 +1,6 @@
 const { resolve } = require("path");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Obiekt konfiguracyjny webpacka
 module.exports = {
@@ -17,7 +19,6 @@ module.exports = {
     // Modules
     module: {
         rules: [
-            // BABEL-LOADER
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -26,23 +27,15 @@ module.exports = {
                 }
             },
 
-            // SASS LOADER
             {
                 test: /\.scss$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        loader: "style-loader" // creates style nodes from JS strings
-                    },
-                    {
-                        loader: "css-loader" // translates CSS into CommonJS
-                    },
-                    {
-                        loader: "sass-loader" // compiles Sass to CSS
-                    }]
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader!sass-loader"
+                })
             },
 
-            // URL LOADER ('file-loader' required!)
             {
                 test: /\.(png|jpg|gif)$/,
                 use: [
@@ -66,6 +59,13 @@ module.exports = {
             }
         ]
     },
+
+    plugins: [
+        new ExtractTextPlugin("main.css"),
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ],
 
     node: {
         fs: "empty" // avoids error messages (check documentation: https://github.com/emaphp/handlebars-template-loader)

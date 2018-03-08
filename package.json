@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --content-base src/ --mode development",
+    "start": "webpack-dev-server --content-base src/ --env.development --mode development",
     "prebuild-dev": "npm run clean",
     "build-dev": "webpack --mode development",
+    "prebuild-prod": "npm run clean",
+    "build-prod": "webpack -p --env.production",
     "preprofile-dev": "webpack --profile --json > stats.json --mode development",
     "profile-dev": "webpack-bundle-analyzer stats.json dist/",
     "clean": "rimraf dist"

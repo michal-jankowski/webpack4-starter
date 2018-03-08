@@ -1,4 +1,5 @@
 const { resolve } = require("path");
+const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -6,14 +7,29 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 
     // entry point
-    entry: "./src/js/app.js",
+    entry: {
+        app: "./src/js/app.js"
+    },
 
     // output object
     output: {
         publicPath: "/dist/",
         // dla właściwości path musimy podać ścieżkę absolutną (patrz import modułu path)
         path: resolve(__dirname, "dist/"),
-        filename: "bundle.js"
+        filename: "[name].js"
+    },
+
+    // Code Splitting, to read more: https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all"
+                }
+            }
+        }
     },
 
     // Modules

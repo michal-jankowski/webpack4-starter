@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --content-base src/ --env.development --mode development",
+    "clean": "rimraf dist",
     "prebuild-dev": "npm run clean",
     "build-dev": "webpack --mode development",
     "prebuild-prod": "npm run clean",
     "build-prod": "webpack -p --env.production",
     "preprofile-dev": "webpack --profile --json > stats.json --mode development",
     "profile-dev": "webpack-bundle-analyzer stats.json dist/",
-    "clean": "rimraf dist"
+    "server": "http-server dist -p 8080 -c-1"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "handlebars": "^4.0.11",
     "handlebars-template-loader": "^1.0.0",
     "html-webpack-plugin": "^3.0.6",
+    "http-server": "^0.11.1",
     "jquery": "^3.3.1",
     "node-sass": "^4.7.2",
     "rimraf": "^2.6.2",

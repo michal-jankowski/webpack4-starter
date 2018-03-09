@@ -12,7 +12,7 @@
     "build-prod": "webpack -p --env.production",
     "preprofile-dev": "webpack --profile --json > stats.json --mode development",
     "profile-dev": "webpack-bundle-analyzer stats.json dist/",
-    "server": "http-server dist -p 8080 -c-1"
+    "server": "http-server dist/ -p 8080 -c-1"
   },
   "keywords": [],
   "author": "",

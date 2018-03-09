@@ -24,6 +24,9 @@ module.exports = function(env) {
             filename: prod ? "[name].[chunkhash].js" : "[name].js"
         },
 
+        // Source Mapping
+        devtool: prod ? "source-map" : "cheap-module-eval-source-map",
+
         // Code Splitting, to read more: https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
         optimization: {
             splitChunks: {

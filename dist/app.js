@@ -81,6 +81,64 @@
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// JSONP chunk loading for javascript
+/******/
+/******/ 		var installedChunkData = installedChunks[chunkId];
+/******/ 		if(installedChunkData !== 0) { // 0 means "already installed".
+/******/
+/******/ 			// a Promise means "currently loading".
+/******/ 			if(installedChunkData) {
+/******/ 				promises.push(installedChunkData[2]);
+/******/ 			} else {
+/******/ 				// setup Promise in chunk cache
+/******/ 				var promise = new Promise(function(resolve, reject) {
+/******/ 					installedChunkData = installedChunks[chunkId] = [resolve, reject];
+/******/ 				});
+/******/ 				promises.push(installedChunkData[2] = promise);
+/******/
+/******/ 				// start chunk loading
+/******/ 				var head = document.getElementsByTagName('head')[0];
+/******/ 				var script = document.createElement('script');
+/******/
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120000;
+/******/
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.src = __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".js";
+/******/ 				var timeout = setTimeout(function(){
+/******/ 					onScriptComplete({ type: 'timeout', target: script });
+/******/ 				}, 120000);
+/******/ 				script.onerror = script.onload = onScriptComplete;
+/******/ 				function onScriptComplete(event) {
+/******/ 					// avoid mem leaks in IE.
+/******/ 					script.onerror = script.onload = null;
+/******/ 					clearTimeout(timeout);
+/******/ 					var chunk = installedChunks[chunkId];
+/******/ 					if(chunk !== 0) {
+/******/ 						if(chunk) {
+/******/ 							var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 							var realSrc = event && event.target && event.target.src;
+/******/ 							var error = new Error('Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')');
+/******/ 							error.type = errorType;
+/******/ 							error.request = realSrc;
+/******/ 							chunk[1](error);
+/******/ 						}
+/******/ 						installedChunks[chunkId] = undefined;
+/******/ 					}
+/******/ 				};
+/******/ 				head.appendChild(script);
+/******/ 			}
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -119,6 +177,9 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+/******/
 /******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
 /******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
 /******/ 	jsonpArray.push = webpackJsonpCallback;
@@ -135,18 +196,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/js/Users.js":
-/*!*************************!*\
-  !*** ./src/js/Users.js ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nvar _users = __webpack_require__(/*! ./views/users.hbs */ \"./src/js/views/users.hbs\");\n\nvar _users2 = _interopRequireDefault(_users);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar API_URL = \"http://jsonplaceholder.typicode.com/users\";\n\nfunction createHTML(data) {\n\n    return (0, _users2.default)({\n        users: data\n    });\n}\n\nfunction getUsers() {\n\n    return _jquery2.default.getJSON(API_URL).then(function (data) {\n        return createHTML(data);\n    });\n}\n\nfunction getUsersHTML() {\n\n    return getUsers();\n}\n\nexports.default = getUsersHTML;\n\n//# sourceURL=webpack:///./src/js/Users.js?");
-
-/***/ }),
-
 /***/ "./src/js/app.js":
 /*!***********************!*\
   !*** ./src/js/app.js ***!
@@ -155,18 +204,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n    value: true\n});
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\n__webpack_require__(/*! ../sass/main.scss */ \"./src/sass/main.scss\");\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nvar _Users = __webpack_require__(/*! ./Users */ \"./src/js/Users.js\");\n\nvar _Users2 = _interopRequireDefault(_Users);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar container = (0, _jquery2.default)(\".container\"),\n    button = (0, _jquery2.default)(\".button\");\n\nbutton.on(\"click\", function () {\n\n    (0, _Users2.default)().then(function (html) {\n        container.append(html);\n    });\n});\n\n//# sourceURL=webpack:///./src/js/app.js?");
-
-/***/ }),
-
-/***/ "./src/js/views/users.hbs":
-/*!********************************!*\
-  !*** ./src/js/views/users.hbs ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("var Handlebars = __webpack_require__(/*! ./node_modules/handlebars/runtime.js */ \"./node_modules/handlebars/runtime.js\");\nmodule.exports = (Handlebars['default'] || Handlebars).template({\"1\":function(container,depth0,helpers,partials,data) {\n    var stack1;\n\n  return \"<ul class=\\\"users\\\">\\n\"\n    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.users : depth0),{\"name\":\"each\",\"hash\":{},\"fn\":container.program(2, data, 0),\"inverse\":container.noop,\"data\":data})) != null ? stack1 : \"\")\n    + \"</ul>\\n\";\n},\"2\":function(container,depth0,helpers,partials,data) {\n    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=\"function\", alias4=container.escapeExpression;\n\n  return \"    <li class=\\\"user\\\">\\n        <span class=\\\"user__name\\\">\"\n    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{\"name\":\"name\",\"hash\":{},\"data\":data}) : helper)))\n    + \"</span>\\n        <span class=\\\"user__email\\\">\"\n    + alias4(((helper = (helper = helpers.email || (depth0 != null ? depth0.email : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{\"name\":\"email\",\"hash\":{},\"data\":data}) : helper)))\n    + \"</span>\\n        <span class=\\\"user__website\\\"><a href=\\\"http://\"\n    + alias4(((helper = (helper = helpers.website || (depth0 != null ? depth0.website : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{\"name\":\"website\",\"hash\":{},\"data\":data}) : helper)))\n    + \"\\\">\"\n    + alias4(((helper = (helper = helpers.website || (depth0 != null ? depth0.website : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{\"name\":\"website\",\"hash\":{},\"data\":data}) : helper)))\n    + \"</a></span>\\n    </li>\\n\";\n},\"4\":function(container,depth0,helpers,partials,data) {\n    return \"<p class=\\\"users__empty\\\">Nic nie znaleziono.</p>\\n\";\n},\"compiler\":[7,\">= 4.0.0\"],\"main\":function(container,depth0,helpers,partials,data) {\n    var stack1;\n\n  return ((stack1 = helpers[\"if\"].call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.users : depth0)) != null ? stack1.length : stack1),{\"name\":\"if\",\"hash\":{},\"fn\":container.program(1, data, 0),\"inverse\":container.program(4, data, 0),\"data\":data})) != null ? stack1 : \"\");\n},\"useData\":true});\n\n//# sourceURL=webpack:///./src/js/views/users.hbs?");
+eval("\n\n__webpack_require__(/*! ../sass/main.scss */ \"./src/sass/main.scss\");\n\n__webpack_require__(/*! es6-promise/auto */ \"./node_modules/es6-promise/auto.js\");\n\nvar _jquery = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\nvar _jquery2 = _interopRequireDefault(_jquery);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar container = (0, _jquery2.default)(\".container\"),\n    button = (0, _jquery2.default)(\".button\"); // polyfill dla promise\n\n\nbutton.on(\"click\", function () {\n\n    Promise.all(/*! import() */[__webpack_require__.e(\"vendors\"), __webpack_require__.e(0)]).then(function() { var module = __webpack_require__(/*! ./Users */ \"./src/js/Users.js\"); return typeof module === \"object\" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === \"object\" && module, { \"default\": module }); }).then(function (_ref) {\n        var getUsersHTML = _ref.default;\n\n\n        getUsersHTML().then(function (html) {\n            container.append(html);\n        });\n    });\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvanMvYXBwLmpzLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vL3NyYy9qcy9hcHAuanM/MDM1NCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgXCIuLi9zYXNzL21haW4uc2Nzc1wiO1xuXG5pbXBvcnQgXCJlczYtcHJvbWlzZS9hdXRvXCI7IC8vIHBvbHlmaWxsIGRsYSBwcm9taXNlXG5pbXBvcnQgJCBmcm9tIFwianF1ZXJ5XCI7XG5cbmxldCBjb250YWluZXIgPSAkKFwiLmNvbnRhaW5lclwiKSxcbiAgICBidXR0b24gPSAkKFwiLmJ1dHRvblwiKTtcblxuYnV0dG9uLm9uKFwiY2xpY2tcIiwgZnVuY3Rpb24gKCkge1xuXG4gICAgaW1wb3J0KFwiLi9Vc2Vyc1wiKVxuICAgICAgICAudGhlbihmdW5jdGlvbiAoeyBkZWZhdWx0OiBnZXRVc2Vyc0hUTUwgfSkge1xuXG4gICAgICAgICAgICBnZXRVc2Vyc0hUTUwoKVxuICAgICAgICAgICAgICAgIC50aGVuKGh0bWwgPT4ge1xuICAgICAgICAgICAgICAgICAgICBjb250YWluZXIuYXBwZW5kKGh0bWwpO1xuXG4gICAgICAgICAgICAgICAgfSk7XG4gICAgICAgIH0pO1xuXG59KTsiXSwibWFwcGluZ3MiOiI7O0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFBQTtBQUNBOzs7OztBQUNBO0FBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQUE7QUFFQTtBQUVBO0FBQ0E7QUFFQSIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/js/app.js\n");
 
 /***/ }),
 
@@ -177,7 +215,7 @@ eval("var Handlebars = __webpack_require__(/*! ./node_modules/handlebars/runtime
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./src/sass/main.scss?");
+eval("// removed by extract-text-webpack-plugin//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvc2Fzcy9tYWluLnNjc3MuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvc2Fzcy9tYWluLnNjc3M/NDNkNiJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyByZW1vdmVkIGJ5IGV4dHJhY3QtdGV4dC13ZWJwYWNrLXBsdWdpbiJdLCJtYXBwaW5ncyI6IkFBQUEiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/sass/main.scss\n");
 
 /***/ })
 

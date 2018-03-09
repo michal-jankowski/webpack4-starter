@@ -1,16 +1,21 @@
 import "../sass/main.scss";
 
+import "es6-promise/auto"; // polyfill dla promise
 import $ from "jquery";
-import getUsersHTML from "./Users";
 
 let container = $(".container"),
     button = $(".button");
 
-button.on("click", function() {
+button.on("click", function () {
 
-    getUsersHTML()
-        .then(html => {
-            container.append(html);
+    import("./Users")
+        .then(function ({ default: getUsersHTML }) {
+
+            getUsersHTML()
+                .then(html => {
+                    container.append(html);
+
+                });
         });
 
 });

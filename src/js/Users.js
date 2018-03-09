@@ -12,8 +12,6 @@ function createHTML(data) {
 
 function getUsers() {
 
-    console.log("W funkcji getUsersHTML");
-
     return $.getJSON(API_URL)
         .then(data => createHTML(data));
 

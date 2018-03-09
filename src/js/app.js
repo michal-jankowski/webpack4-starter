@@ -1,7 +1,6 @@
 import "../sass/main.scss";
 
 import "es6-promise/auto"; // polyfill dla promise
-import $ from "jquery";
 
 let container = $(".container"),
     button = $(".button");

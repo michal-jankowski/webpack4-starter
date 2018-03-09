@@ -88,6 +88,11 @@ module.exports = function(env) {
             new ExtractTextPlugin("main.css"),
             new HtmlWebpackPlugin({
                 template: './src/index.html'
+            }),
+            new webpack.ProvidePlugin({
+                // globalny import jquery do wszystkich modułów, które z niego korzystają
+                $: "jquery",
+                jQuery: "jquery"
             })
         ],
 
